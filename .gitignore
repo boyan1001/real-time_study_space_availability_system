@@ -1,0 +1,12 @@
+node_modules/
+.next
+.env
+.vscode
+.venv
+
+uv.lock
+__pycache__/
+frontend/dist/
+*.pyc
+
+.DS_Store

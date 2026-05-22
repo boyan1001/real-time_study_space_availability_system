@@ -1,0 +1,182 @@
+{
+  "users": [
+    {
+      "user_id": "STU001",
+      "name": "陳小明",
+      "email": "ming@example.com",
+      "password": "pass1234",
+      "privileges": "normal",
+      "location": "unknown"
+    },
+    {
+      "user_id": "STU002",
+      "name": "林雅婷",
+      "email": "yating@example.com",
+      "password": "pass1234",
+      "privileges": "normal",
+      "location": "Room 101"
+    },
+    {
+      "user_id": "STU003",
+      "name": "王大偉",
+      "email": "david@example.com",
+      "password": "pass1234",
+      "privileges": "normal",
+      "location": "Room 104"
+    },
+    {
+      "user_id": "STU004",
+      "name": "張美玲",
+      "email": "meling@example.com",
+      "password": "pass1234",
+      "privileges": "normal",
+      "location": "Room 104"
+    },
+    {
+      "user_id": "ADM001",
+      "name": "系統管理員",
+      "email": "admin@smartcity.gov.tw",
+      "password": "admin9999",
+      "privileges": "admin",
+      "location": "Room 103"
+    },
+    {
+      "user_id": "41247020S",
+      "name": "toast",
+      "email": "cby931001@gmail.com",
+      "password": "12345678",
+      "privileges": "normal",
+      "location": "Room 103"
+    }
+  ],
+  "rooms": [
+    {
+      "room_id": 101,
+      "name": "教室 101",
+      "capacity": 30,
+      "current_occupancy": 1,
+      "status": "occupied"
+    },
+    {
+      "room_id": 102,
+      "name": "教室 102",
+      "capacity": 25,
+      "current_occupancy": 1,
+      "status": "occupied"
+    },
+    {
+      "room_id": 103,
+      "name": "會議室 A",
+      "capacity": 10,
+      "current_occupancy": 2,
+      "status": "occupied"
+    },
+    {
+      "room_id": 104,
+      "name": "實驗室 B",
+      "capacity": 15,
+      "current_occupancy": 2,
+      "status": "occupied"
+    }
+  ],
+  "events": [
+    {
+      "event_id": "evt-00001",
+      "room_id": 101,
+      "user_id": "STU002",
+      "timestamp": "2026-05-22T08:30:00+08:00",
+      "event_type": "checkin"
+    },
+    {
+      "event_id": "evt-00002",
+      "room_id": 104,
+      "user_id": "STU003",
+      "timestamp": "2026-05-22T09:00:00+08:00",
+      "event_type": "checkin"
+    },
+    {
+      "event_id": "evt-00003",
+      "room_id": 104,
+      "user_id": "STU004",
+      "timestamp": "2026-05-22T09:15:00+08:00",
+      "event_type": "checkin"
+    },
+    {
+      "event_id": "evt-00004",
+      "room_id": 102,
+      "user_id": "STU001",
+      "timestamp": "2026-05-22T07:45:00+08:00",
+      "event_type": "checkin"
+    },
+    {
+      "event_id": "evt-00005",
+      "room_id": 102,
+      "user_id": "STU001",
+      "timestamp": "2026-05-22T08:20:00+08:00",
+      "event_type": "checkout"
+    },
+    {
+      "event_id": "evt-1f2f8bcc",
+      "room_id": 102,
+      "user_id": "ADM001",
+      "timestamp": "2026-05-21T22:37:28.970201+00:00",
+      "event_type": "checkin"
+    },
+    {
+      "event_id": "evt-82f4d3ce",
+      "room_id": 103,
+      "user_id": "STU001",
+      "timestamp": "2026-05-21T22:39:08.720012+00:00",
+      "event_type": "checkin"
+    },
+    {
+      "event_id": "evt-1b2c54cc",
+      "room_id": 103,
+      "user_id": "STU001",
+      "timestamp": "2026-05-21T22:39:18.830387+00:00",
+      "event_type": "checkout"
+    },
+    {
+      "event_id": "evt-61cea039",
+      "room_id": 103,
+      "user_id": "STU001",
+      "timestamp": "2026-05-21T22:39:22.067749+00:00",
+      "event_type": "checkin"
+    },
+    {
+      "event_id": "evt-d81e6603",
+      "room_id": 103,
+      "user_id": "STU001",
+      "timestamp": "2026-05-21T22:39:34.685295+00:00",
+      "event_type": "checkout"
+    },
+    {
+      "event_id": "evt-66bd3ef1",
+      "room_id": 103,
+      "user_id": "ADM001",
+      "timestamp": "2026-05-22T02:29:12.798910+00:00",
+      "event_type": "checkin"
+    },
+    {
+      "event_id": "evt-2ae7c653",
+      "room_id": 103,
+      "user_id": "ADM001",
+      "timestamp": "2026-05-22T02:30:03.414888+00:00",
+      "event_type": "checkout"
+    },
+    {
+      "event_id": "evt-b1e3d6df",
+      "room_id": 103,
+      "user_id": "ADM001",
+      "timestamp": "2026-05-22T10:34:12.163777+00:00",
+      "event_type": "checkin"
+    },
+    {
+      "event_id": "evt-64a5fe4e",
+      "room_id": 103,
+      "user_id": "41247020S",
+      "timestamp": "2026-05-22T10:34:38.369155+00:00",
+      "event_type": "checkin"
+    }
+  ]
+}
