@@ -71,4 +71,4 @@ pnpm dev
 ```
 
 ## License
-This repository is licensed under the [MIT License](LICENSE) © Hank Chen  
+This repository is licensed under the [MIT License](LICENSE) © Toast Chen  
