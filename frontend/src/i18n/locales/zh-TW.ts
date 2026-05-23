@@ -3,7 +3,7 @@ const zhTW = {
   lang: { zh: '繁中', en: 'EN', ja: '日本語' },
   common: {
     loading: '載入中…', error: '發生錯誤', back: '返回',
-    occupied: '使用中', available: '空閒',
+    occupied: '滿載', busy: '忙碌', available: '空閒',
     checkin: '進入', checkout: '離開',
     admin: '管理員', user: '使用者',
   },
@@ -64,8 +64,8 @@ const zhTW = {
   },
   dashboard: {
     title: '儀表板', subtitle: '即時門禁狀態總覽',
-    statRooms: '教室總數', statOccupied: '使用中',
-    statAvailable: '空閒中', statEvents: '累計紀錄',
+    statRooms: '教室總數', statOccupied: '滿載',
+    statBusy: '忙碌中', statAvailable: '空閒中', statEvents: '累計紀錄',
     sectionRooms: '教室狀態', sectionLogs: '最近紀錄',
     viewAll: '查看全部 →', noLogs: '無紀錄',
     sectionUsers: '在線使用者', onlineCount: '{{online}} / {{total}}',
@@ -109,6 +109,9 @@ const zhTW = {
     empty: '目前無教室資料',
     loginBtn: '管理員登入',
     adminHint: '管理員可新增、刪除教室或查看成員 →',
+    predict30: '30 分後預測',
+    predictPeople: '{{n}} 人',
+    predictConfidence: '信心度 {{pct}}%',
   },
 } as const
 

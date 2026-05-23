@@ -131,8 +131,12 @@ export default function RoomsPage() {
                   </div>
                 </td>
                 <td className="px-5 py-3.5">
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${r.status === 'occupied' ? 'bg-red-500/15 text-red-400' : 'bg-green-500/15 text-green-400'}`}>
-                    {r.status === 'occupied' ? t('common.occupied') : t('common.available')}
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+                    r.status === 'occupied' ? 'bg-red-500/15 text-red-400' :
+                    r.status === 'busy'     ? 'bg-yellow-500/15 text-yellow-400' :
+                                             'bg-green-500/15 text-green-400'
+                  }`}>
+                    {r.status === 'occupied' ? t('common.occupied') : r.status === 'busy' ? t('common.busy') : t('common.available')}
                   </span>
                 </td>
                 <td className="px-5 py-3.5">

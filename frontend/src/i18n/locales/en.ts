@@ -3,7 +3,7 @@ const en = {
   lang: { zh: '繁中', en: 'EN', ja: '日本語' },
   common: {
     loading: 'Loading…', error: 'Error occurred', back: 'Back',
-    occupied: 'Occupied', available: 'Available',
+    occupied: 'Full', busy: 'Busy', available: 'Available',
     checkin: 'Check In', checkout: 'Check Out',
     admin: 'Admin', user: 'User',
   },
@@ -64,8 +64,8 @@ const en = {
   },
   dashboard: {
     title: 'Dashboard', subtitle: 'Live access control overview',
-    statRooms: 'Total Rooms', statOccupied: 'Occupied',
-    statAvailable: 'Available', statEvents: 'Total Events',
+    statRooms: 'Total Rooms', statOccupied: 'Full',
+    statBusy: 'Busy', statAvailable: 'Available', statEvents: 'Total Events',
     sectionRooms: 'Room Status', sectionLogs: 'Recent Logs',
     viewAll: 'View all →', noLogs: 'No records',
     sectionUsers: 'Online Users', onlineCount: '{{online}} / {{total}}',
@@ -109,6 +109,9 @@ const en = {
     empty: 'No rooms available',
     loginBtn: 'Admin Login',
     adminHint: 'Admins can add/delete rooms or view members →',
+    predict30: 'In 30 min',
+    predictPeople: '{{n}} people',
+    predictConfidence: '{{pct}}% confidence',
   },
 } as const
 

@@ -8,6 +8,18 @@ import uuid
 router = APIRouter(prefix="/rooms", tags=["Rooms"])
 
 
+def compute_status(occupancy: int, capacity: int) -> str:
+    """三燈號制：空閒 / 忙碌 / 滿載"""
+    if capacity == 0 or occupancy == 0:
+        return "available"
+    pct = occupancy / capacity
+    if pct >= 0.9:
+        return "occupied"
+    if pct >= 0.6:
+        return "busy"
+    return "available"
+
+
 class RoomDoorEvent(BaseModel):
     user_id: str
     event_type: Optional[str] = None
@@ -36,7 +48,7 @@ def checkin(room_id: int, event: RoomDoorEvent):
         raise HTTPException(status_code=404, detail="Classroom not found")
 
     room["current_occupancy"] = min(room["current_occupancy"] + 1, room["capacity"])
-    room["status"] = "occupied"
+    room["status"] = compute_status(room["current_occupancy"], room["capacity"])
 
     for u in db["users"]:
         if u["user_id"] == event.user_id:
@@ -62,8 +74,7 @@ def checkout(room_id: int, event: RoomDoorEvent):
         raise HTTPException(status_code=404, detail="Classroom not found")
 
     room["current_occupancy"] = max(room["current_occupancy"] - 1, 0)
-    if room["current_occupancy"] == 0:
-        room["status"] = "available"
+    room["status"] = compute_status(room["current_occupancy"], room["capacity"])
 
     for u in db["users"]:
         if u["user_id"] == event.user_id:

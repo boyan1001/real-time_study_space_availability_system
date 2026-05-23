@@ -3,7 +3,7 @@ const ja = {
   lang: { zh: '繁中', en: 'EN', ja: '日本語' },
   common: {
     loading: '読み込み中…', error: 'エラーが発生しました', back: '戻る',
-    occupied: '使用中', available: '空き',
+    occupied: '満員', busy: '混雑', available: '空き',
     checkin: '入室', checkout: '退室',
     admin: '管理者', user: 'ユーザー',
   },
@@ -64,8 +64,8 @@ const ja = {
   },
   dashboard: {
     title: 'ダッシュボード', subtitle: 'リアルタイム入退室状況',
-    statRooms: '総教室数', statOccupied: '使用中',
-    statAvailable: '空き', statEvents: '累計記録',
+    statRooms: '総教室数', statOccupied: '満員',
+    statBusy: '混雑', statAvailable: '空き', statEvents: '累計記録',
     sectionRooms: '教室状況', sectionLogs: '最近の記録',
     viewAll: 'すべて見る →', noLogs: '記録なし',
     sectionUsers: 'オンラインユーザー', onlineCount: '{{online}} / {{total}}',
@@ -109,6 +109,9 @@ const ja = {
     empty: '教室データがありません',
     loginBtn: '管理者ログイン',
     adminHint: '管理者は教室の追加・削除やメンバー確認ができます →',
+    predict30: '30分後の予測',
+    predictPeople: '{{n}} 人',
+    predictConfidence: '信頼度 {{pct}}%',
   },
 } as const
 

@@ -116,9 +116,9 @@ export default function AccessPage() {
             </div>
             <h1 className="text-xl font-bold text-white">{room.name}</h1>
             <div className="flex items-center justify-center gap-2 mt-1.5">
-              <span className={`w-2 h-2 rounded-full ${room.status === 'occupied' ? 'bg-red-500' : 'bg-green-500'}`} />
+              <span className={`w-2 h-2 rounded-full ${room.status === 'occupied' ? 'bg-red-500' : room.status === 'busy' ? 'bg-yellow-500' : 'bg-green-500'}`} />
               <span className="text-slate-400 text-xs">
-                {room.status === 'occupied' ? t('common.occupied') : t('common.available')}
+                {room.status === 'occupied' ? t('common.occupied') : room.status === 'busy' ? t('common.busy') : t('common.available')}
                 {' · '}
                 {t('access.occupancy', { cur: room.current_occupancy, cap: room.capacity })}
               </span>

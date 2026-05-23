@@ -1,4 +1,4 @@
-import type { User, Room, DoorEvent, Stats } from './types'
+import type { User, Room, DoorEvent, Stats, RoomPrediction } from './types'
 
 const BASE: string = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:8000'
 
@@ -36,6 +36,8 @@ export const api = {
 
   getRooms: () => req<{ rooms: Room[] }>('/rooms'),
   getRoom: (roomId: number) => req<Room>(`/rooms/${roomId}`),
+  getPredictions: (minutesAhead = 30) =>
+    req<{ minutes_ahead: number; predictions: RoomPrediction[] }>(`/rooms/predictions/all?minutes_ahead=${minutesAhead}`),
 
   checkin: (roomId: number, userId: string) =>
     req<DoorEvent>(`/rooms/${roomId}/in`, {

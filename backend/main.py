@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes.user import router as user_router
 from routes.room import router as room_router
 from routes.admin import router as admin_router
+from routes.prediction import router as prediction_router
 
 app = FastAPI(title="QR code door security API", version="1.0.0")
 
@@ -17,6 +18,7 @@ app.add_middleware(
 app.include_router(user_router)
 app.include_router(room_router)
 app.include_router(admin_router)
+app.include_router(prediction_router)
 
 
 @app.get("/healthz")

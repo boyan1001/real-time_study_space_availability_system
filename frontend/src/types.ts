@@ -11,7 +11,7 @@ export interface Room {
   name: string
   capacity: number
   current_occupancy: number
-  status: 'available' | 'occupied'
+  status: 'available' | 'busy' | 'occupied'
 }
 
 export interface DoorEvent {
@@ -27,8 +27,22 @@ export interface DoorEvent {
 export interface Stats {
   total_rooms: number
   occupied_rooms: number
+  busy_rooms: number
   available_rooms: number
   total_users: number
   active_users: number
   total_events: number
+}
+
+export interface RoomPrediction {
+  room_id: number
+  room_name: string
+  minutes_ahead: number
+  current_occupancy: number
+  predicted_occupancy: number
+  capacity: number
+  predicted_available_seats: number
+  predicted_availability: 'available' | 'moderate' | 'busy' | 'full'
+  confidence: number
+  model_type: string
 }

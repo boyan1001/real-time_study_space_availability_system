@@ -2,19 +2,33 @@ import { useEffect, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { api } from '../api'
-import type { Room } from '../types'
-import { QrCode, Loader2, RefreshCw, LogIn, Users } from 'lucide-react'
+import type { Room, RoomPrediction } from '../types'
+import { QrCode, Loader2, RefreshCw, LogIn, Users, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import LanguageSwitcher from '../components/LanguageSwitcher'
 
-function RoomCard({ room, t }: { room: Room; t: (key: string, opts?: Record<string, unknown>) => string }) {
+const STATUS_STYLE = {
+  occupied: { border: 'border-red-500/30', badge: 'bg-red-500/15 text-red-400', bar: 'bg-red-500' },
+  busy:     { border: 'border-yellow-500/30', badge: 'bg-yellow-500/15 text-yellow-400', bar: 'bg-yellow-500' },
+  available:{ border: 'border-green-500/20', badge: 'bg-green-500/15 text-green-400', bar: 'bg-green-500' },
+} as const
+
+type TFunc = (key: string, opts?: Record<string, unknown>) => string
+
+function RoomCard({ room, prediction, t }: { room: Room; prediction?: RoomPrediction; t: TFunc }) {
   const pct = room.capacity ? Math.round((room.current_occupancy / room.capacity) * 100) : 0
-  const isOccupied = room.status === 'occupied'
+  const style = STATUS_STYLE[room.status] ?? STATUS_STYLE.available
+  const statusLabel = room.status === 'occupied' ? t('common.occupied') : room.status === 'busy' ? t('common.busy') : t('common.available')
+
+  const delta = prediction ? prediction.predicted_occupancy - prediction.current_occupancy : 0
+  const TrendIcon = delta > 0 ? TrendingUp : delta < 0 ? TrendingDown : Minus
+  const trendColor = delta > 0 ? 'text-red-400' : delta < 0 ? 'text-green-400' : 'text-slate-500'
+
   return (
-    <div className={`bg-slate-800 border rounded-xl p-5 flex flex-col gap-3 transition-colors ${isOccupied ? 'border-red-500/30' : 'border-green-500/20'}`}>
+    <div className={`bg-slate-800 border rounded-xl p-5 flex flex-col gap-3 transition-colors ${style.border}`}>
       <div className="flex items-start justify-between gap-2">
         <span className="font-semibold text-white text-base leading-tight">{room.name}</span>
-        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0 ${isOccupied ? 'bg-red-500/15 text-red-400' : 'bg-green-500/15 text-green-400'}`}>
-          {isOccupied ? t('common.occupied') : t('common.available')}
+        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0 ${style.badge}`}>
+          {statusLabel}
         </span>
       </div>
 
@@ -27,7 +41,7 @@ function RoomCard({ room, t }: { room: Room; t: (key: string, opts?: Record<stri
       <div className="space-y-1">
         <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
           <div
-            className={`h-full rounded-full transition-all ${pct >= 90 ? 'bg-red-500' : pct >= 60 ? 'bg-yellow-500' : 'bg-green-500'}`}
+            className={`h-full rounded-full transition-all ${style.bar}`}
             style={{ width: `${pct}%` }}
           />
         </div>
@@ -36,6 +50,21 @@ function RoomCard({ room, t }: { room: Room; t: (key: string, opts?: Record<stri
           <span>{pct}%</span>
         </div>
       </div>
+
+      {prediction && (
+        <div className="border-t border-slate-700 pt-2.5 flex items-center justify-between gap-2">
+          <span className="text-xs text-slate-500">{t('board.predict30')}</span>
+          <div className={`flex items-center gap-1 ${trendColor}`}>
+            <TrendIcon className="w-3.5 h-3.5" />
+            <span className="text-xs font-semibold tabular-nums">
+              {t('board.predictPeople', { n: prediction.predicted_occupancy })}
+            </span>
+            <span className="text-xs text-slate-600">
+              {t('board.predictConfidence', { pct: Math.round(prediction.confidence * 100) })}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -44,14 +73,19 @@ export default function BoardPage() {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const [rooms, setRooms] = useState<Room[]>([])
+  const [predictions, setPredictions] = useState<Map<number, RoomPrediction>>(new Map())
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [updatedAt, setUpdatedAt] = useState(new Date())
 
   const load = useCallback(async () => {
     try {
-      const data = await api.getRooms()
-      setRooms(data.rooms)
+      const [roomData, predData] = await Promise.all([
+        api.getRooms(),
+        api.getPredictions(30),
+      ])
+      setRooms(roomData.rooms)
+      setPredictions(new Map(predData.predictions.map(p => [p.room_id, p])))
       setUpdatedAt(new Date())
       setError('')
     } catch (err: unknown) {
@@ -68,7 +102,8 @@ export default function BoardPage() {
   }, [load])
 
   const occupied = rooms.filter(r => r.status === 'occupied').length
-  const available = rooms.length - occupied
+  const busy = rooms.filter(r => r.status === 'busy').length
+  const available = rooms.filter(r => r.status === 'available').length
   const timeLocale = i18n.language === 'en' ? 'en-US' : i18n.language === 'ja' ? 'ja-JP' : 'zh-TW'
 
   return (
@@ -110,11 +145,12 @@ export default function BoardPage() {
 
         {/* Summary stats */}
         {!loading && rooms.length > 0 && (
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { label: t('board.statTotal'), value: rooms.length, color: 'text-white', bg: 'bg-slate-800 border-slate-700' },
-              { label: t('common.occupied'), value: occupied, color: 'text-red-400', bg: 'bg-red-500/5 border-red-500/20' },
               { label: t('common.available'), value: available, color: 'text-green-400', bg: 'bg-green-500/5 border-green-500/20' },
+              { label: t('common.busy'), value: busy, color: 'text-yellow-400', bg: 'bg-yellow-500/5 border-yellow-500/20' },
+              { label: t('common.occupied'), value: occupied, color: 'text-red-400', bg: 'bg-red-500/5 border-red-500/20' },
             ].map(s => (
               <div key={s.label} className={`${s.bg} border rounded-xl p-4 text-center`}>
                 <div className={`text-2xl font-bold ${s.color}`}>{s.value}</div>
@@ -140,7 +176,7 @@ export default function BoardPage() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {rooms.map(r => (
-              <RoomCard key={r.room_id} room={r} t={t} />
+              <RoomCard key={r.room_id} room={r} prediction={predictions.get(r.room_id)} t={t} />
             ))}
           </div>
         )}

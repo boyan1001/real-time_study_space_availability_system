@@ -57,10 +57,11 @@ export default function DashboardPage() {
       </div>
 
       {stats && (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           <StatCard icon={<Building2 className="w-5 h-5 text-blue-400" />} label={t('dashboard.statRooms')} value={stats.total_rooms} color="bg-blue-500/15" />
-          <StatCard icon={<CheckCircle className="w-5 h-5 text-red-400" />} label={t('dashboard.statOccupied')} value={stats.occupied_rooms} color="bg-red-500/15" />
           <StatCard icon={<CheckCircle className="w-5 h-5 text-green-400" />} label={t('dashboard.statAvailable')} value={stats.available_rooms} color="bg-green-500/15" />
+          <StatCard icon={<CheckCircle className="w-5 h-5 text-yellow-400" />} label={t('dashboard.statBusy')} value={stats.busy_rooms} color="bg-yellow-500/15" />
+          <StatCard icon={<CheckCircle className="w-5 h-5 text-red-400" />} label={t('dashboard.statOccupied')} value={stats.occupied_rooms} color="bg-red-500/15" />
           <StatCard icon={<Activity className="w-5 h-5 text-purple-400" />} label={t('dashboard.statEvents')} value={stats.total_events} color="bg-purple-500/15" />
         </div>
       )}
@@ -82,16 +83,16 @@ export default function DashboardPage() {
                   className="bg-slate-900 hover:bg-slate-700/60 border border-slate-700 rounded-xl p-4 text-left transition-colors">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-white">{r.name}</span>
-                    <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${r.status === 'occupied' ? 'bg-red-500' : 'bg-green-500'}`} />
+                    <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${r.status === 'occupied' ? 'bg-red-500' : r.status === 'busy' ? 'bg-yellow-500' : 'bg-green-500'}`} />
                   </div>
                   <div className="text-xl font-bold text-blue-400">
                     {r.current_occupancy}<span className="text-sm text-slate-500 font-normal"> / {r.capacity}</span>
                   </div>
                   <div className="text-xs text-slate-500 mt-1">
-                    {r.status === 'occupied' ? t('common.occupied') : t('common.available')}
+                    {r.status === 'occupied' ? t('common.occupied') : r.status === 'busy' ? t('common.busy') : t('common.available')}
                   </div>
                   <div className="mt-2 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-500 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                    <div className={`h-full rounded-full transition-all ${pct >= 90 ? 'bg-red-500' : pct >= 60 ? 'bg-yellow-500' : 'bg-green-500'}`} style={{ width: `${pct}%` }} />
                   </div>
                 </button>
               )

@@ -121,13 +121,16 @@ def get_stats():
     db = read_db()
     total_rooms = len(db["rooms"])
     occupied_rooms = sum(1 for r in db["rooms"] if r["status"] == "occupied")
+    busy_rooms = sum(1 for r in db["rooms"] if r["status"] == "busy")
+    available_rooms = sum(1 for r in db["rooms"] if r["status"] == "available")
     total_users = len(db["users"])
     active_users = sum(1 for u in db["users"] if u["location"] != "unknown")
     total_events = len(db["events"])
     return {
         "total_rooms": total_rooms,
         "occupied_rooms": occupied_rooms,
-        "available_rooms": total_rooms - occupied_rooms,
+        "busy_rooms": busy_rooms,
+        "available_rooms": available_rooms,
         "total_users": total_users,
         "active_users": active_users,
         "total_events": total_events,
