@@ -18,7 +18,7 @@ class Room(BaseModel):
     status: str = "available"
 
 
-@router.get("/users")
+@router.get("/users", summary = "List all users")
 def list_users():
     db = read_db()
     return {
@@ -35,13 +35,13 @@ def list_users():
     }
 
 
-@router.get("/rooms")
+@router.get("/rooms", summary = "List all rooms")
 def list_rooms():
     db = read_db()
     return {"rooms": db["rooms"]}
 
 
-@router.post("/rooms/{room_id}")
+@router.post("/rooms/{room_id}", summary = "Create a new room")
 def create_room(room_id: int, room: Room):
     db = read_db()
     if any(r["room_id"] == room_id for r in db["rooms"]):
@@ -51,7 +51,7 @@ def create_room(room_id: int, room: Room):
     return {"message": "教室建立成功", "room_id": room_id, "room": room}
 
 
-@router.put("/rooms/{room_id}")
+@router.put("/rooms/{room_id}", summary = "Update an existing room")
 def update_room(room_id: int, room: Room):
     db = read_db()
     for i, r in enumerate(db["rooms"]):
@@ -62,7 +62,7 @@ def update_room(room_id: int, room: Room):
     raise HTTPException(status_code=404, detail="找不到教室")
 
 
-@router.delete("/rooms/{room_id}")
+@router.delete("/rooms/{room_id}", summary = "Delete a room")
 def delete_room(room_id: int):
     db = read_db()
     db["rooms"] = [r for r in db["rooms"] if r["room_id"] != room_id]
@@ -70,7 +70,7 @@ def delete_room(room_id: int):
     return {"message": "教室刪除成功", "room_id": room_id}
 
 
-@router.get("/rooms/{room_id}/qrcode")
+@router.get("/rooms/{room_id}/qrcode", summary = "Get QR code info for a room")
 def get_room_qrcode(room_id: int):
     db = read_db()
     room = next((r for r in db["rooms"] if r["room_id"] == room_id), None)
@@ -84,7 +84,7 @@ def get_room_qrcode(room_id: int):
     }
 
 
-@router.get("/rooms/{room_id}/history")
+@router.get("/rooms/{room_id}/history", summary = "Get check-in/out history for a room")
 def get_room_events(room_id: int):
     db = read_db()
     room = next((r for r in db["rooms"] if r["room_id"] == room_id), None)
@@ -99,7 +99,7 @@ def get_room_events(room_id: int):
     }
 
 
-@router.get("/events")
+@router.get("/events", summary = "List all check-in/out events")
 def list_all_events():
     db = read_db()
     events = sorted(db["events"], key=lambda e: e["timestamp"], reverse=True)
@@ -116,7 +116,7 @@ def list_all_events():
     return {"events": enriched}
 
 
-@router.get("/stats")
+@router.get("/stats", summary = "Get system statistics")
 def get_stats():
     db = read_db()
     total_rooms = len(db["rooms"])

@@ -21,11 +21,11 @@ app.include_router(admin_router)
 app.include_router(prediction_router)
 
 
-@app.get("/healthz")
+@app.get("/healthz", summary="Health check endpoint")
 def healthz():
     return {"status": "ok"}
 
 
-@app.get("/")
+@app.get("/", summary="Root endpoint")
 def root():
     return {"message": "QR code door security API"}

@@ -6,7 +6,7 @@ from services.prediction_service import predict_room
 router = APIRouter(prefix="/rooms", tags=["Predictions"])
 
 
-@router.get("/{room_id}/prediction")
+@router.get("/{room_id}/prediction", summary = "Get occupancy prediction for a specific room")
 def get_room_prediction(
     room_id: int,
     minutes_ahead: int = Query(default=30, ge=5, le=240),
@@ -26,7 +26,7 @@ def get_room_prediction(
     )
 
 
-@router.get("/predictions/all")
+@router.get("/predictions/all", summary = "Get occupancy predictions for all rooms")
 def get_all_room_predictions(
     minutes_ahead: int = Query(default=30, ge=5, le=240),
 ):

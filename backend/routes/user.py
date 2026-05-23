@@ -18,7 +18,7 @@ class UserLogin(BaseModel):
     password: str
 
 
-@router.post("/register")
+@router.post("/register", summary = "Register a new user")
 def register(user: UserRegister):
     db = read_db()
     if any(u["user_id"] == user.user_id for u in db["users"]):
@@ -35,7 +35,7 @@ def register(user: UserRegister):
     return {"message": "Register Sucessfully", "user_id": user.user_id}
 
 
-@router.post("/login")
+@router.post("/login", summary = "Login with user ID and password")
 def login(user: UserLogin):
     db = read_db()
     found = next(
@@ -53,7 +53,7 @@ def login(user: UserLogin):
     }
 
 
-@router.get("/profile")
+@router.get("/profile", summary = "Get user profile by user ID")
 def profile(user_id: str):
     db = read_db()
     user = next((u for u in db["users"] if u["user_id"] == user_id), None)

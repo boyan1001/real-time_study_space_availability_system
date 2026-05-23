@@ -25,13 +25,13 @@ class RoomDoorEvent(BaseModel):
     event_type: Optional[str] = None
 
 
-@router.get("")
+@router.get("", summary = "List all rooms with current status")
 def list_rooms():
     db = read_db()
     return {"rooms": db["rooms"]}
 
 
-@router.get("/{room_id}")
+@router.get("/{room_id}", summary = "Get detailed info for a specific room")
 def get_room_info(room_id: int):
     db = read_db()
     room = next((r for r in db["rooms"] if r["room_id"] == room_id), None)
@@ -40,7 +40,7 @@ def get_room_info(room_id: int):
     return room
 
 
-@router.post("/{room_id}/in")
+@router.post("/{room_id}/in", summary = "Check in to a room", description = "Simulate a user entering a room by scanning the QR code")
 def checkin(room_id: int, event: RoomDoorEvent):
     db = read_db()
     room = next((r for r in db["rooms"] if r["room_id"] == room_id), None)
@@ -66,7 +66,7 @@ def checkin(room_id: int, event: RoomDoorEvent):
     return new_event
 
 
-@router.post("/{room_id}/out")
+@router.post("/{room_id}/out", summary = "Check out of a room", description = "Simulate a user leaving a room by scanning the QR code")
 def checkout(room_id: int, event: RoomDoorEvent):
     db = read_db()
     room = next((r for r in db["rooms"] if r["room_id"] == room_id), None)
