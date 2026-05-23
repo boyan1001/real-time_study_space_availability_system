@@ -1,4 +1,5 @@
 # Campus Crowding Map: Real-Time Study Space Availability for Smarter Student Life
+![](https://img.shields.io/github/license/boyan1001/real-time_study_space_availability_system?style=for-the-badge)
 ![](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
