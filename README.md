@@ -1,4 +1,8 @@
 # Campus Crowding Map: Real-Time Study Space Availability for Smarter Student Life
+![](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+
 This is the Real-Time Study Space Availability. We register the check-in/check-out event by scanning QR code, and we can get the availability information of study space by the webboard.
 
 ## Features
@@ -65,3 +69,6 @@ pnpm install
 ```bash
 pnpm dev
 ```
+
+## License
+This repository is licensed under the [MIT License](LICENSE) © Hank Chen  
